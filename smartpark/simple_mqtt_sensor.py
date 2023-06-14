@@ -1,8 +1,12 @@
+
+
 """"Demonstrates a simple implementation of an 'event' listener that triggers
 a publication via mqtt"""
+import sys
 import random
-
 import mqtt_device
+import time
+import json
 
 
 class Sensor(mqtt_device.MqttDevice):
@@ -30,19 +34,17 @@ class Sensor(mqtt_device.MqttDevice):
 
 
 if __name__ == '__main__':
+    config1_file_path = 'config.json'
     config1 = {'name': 'sensor',
               'location': 'moondalup',
               'topic-root': "lot",
               'broker': 'localhost',
               'port': 1883,
+               "topic-qualifier": "NA",
               }
     # TODO: Read previous config from file instead of embedding
-
     sensor1 = Sensor(config1)
-
-
     print("Sensor initialized")
     sensor1.start_sensing()
 
-    sensor1.start_sensing()
 

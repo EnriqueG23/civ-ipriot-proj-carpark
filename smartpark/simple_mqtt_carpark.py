@@ -60,6 +60,15 @@ class CarPark(mqtt_device.MqttDevice):
         payload = msg.payload.decode()
         # TODO: Extract temperature from payload
         # self.temperature = ... # Extracted value
+        if 'Temperature:' in payload:
+            temperature_start = payload.index('Temperature:') + len('Temperature:')
+            temperature_str = payload[temperature_start:].strip()
+            self.temperature = temperature_str
+
+        if 'exit' in payload:
+            self.on_car_exit()
+        else:
+            self.on_car_entry()
         if 'exit' in payload:
             self.on_car_exit()
         else:
@@ -67,7 +76,7 @@ class CarPark(mqtt_device.MqttDevice):
 
 
 if __name__ == '__main__':
-    config = {'name': "raf-park",
+    config1 = {'name': "raf-park",
               'total-spaces': 130,
               'total-cars': 0,
               'location': 'L306',
@@ -78,6 +87,6 @@ if __name__ == '__main__':
               'is_stuff': False
               }
     # TODO: Read config from file
-    car_park = CarPark(config)
+    car_park = CarPark(config1)
     print("Carpark initialized")
-    print("Carpark initialized")
+
